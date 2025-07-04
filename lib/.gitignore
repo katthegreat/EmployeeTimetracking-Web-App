@@ -1,0 +1,26 @@
+<<<<<<< HEAD
+# Ignore compiled class files
+*.class
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore JARs and libraries
+*.jar
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore logs or environment files (if any in future)
+*.log
+.env
+
+
+
+=======
+.env
+>>>>>>> 92359fe11e730d22c4b5a76a089994eff03447b2
+
+*.class
+
+
