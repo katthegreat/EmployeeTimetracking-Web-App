@@ -17,3 +17,11 @@ The `AdminMenuTest.java` file contains unit tests for the Admin Menu features of
 - Inserting and retrieving a new employee  
 
 The tests connect to a local MySQL `timetracking` database and check for data consistency using assertions. All tests have been confirmed to pass successfully.
+
+
+### ✅ New Tests for Employees
+
+Two more tests were added:
+
+- Clock-In: Saves clock-in time to `time_logs`
+- Payroll Summary: Gets payroll info from `payroll` table
