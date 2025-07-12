@@ -13,15 +13,13 @@ public class AdminWorkflowTest {
     @BeforeAll
     static void setup() throws SQLException {
         conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        System.out.println("Database connection established");
     }
 
     // Scenario 1: Admin views active employees
     @Test
     @Order(1)
-    @DisplayName("Admin views active employees")
     void testAdminViewsActiveEmployees() throws SQLException {
-        System.out.println("\n--- Testing Admin Views Active Employees ---");
+        System.out.println("\nSCENARIO 1: Admin views active employees");
         
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
@@ -38,28 +36,27 @@ public class AdminWorkflowTest {
             }
             assertTrue(hasEmployees, "No active employees found");
         }
-        System.out.println("✅ Scenario 1 Passed: Admin successfully viewed employees\n");
+        System.out.println("✅ Scenario 1 Passed");
     }
 
-    // Scenario 2: Admin updates employee information
+    // Scenario 2: Admin updates employee info
     @Test
     @Order(2)
-    @DisplayName("Admin updates employee information")
     void testAdminUpdatesEmployee() throws SQLException {
-        System.out.println("--- Testing Admin Updates Employee ---");
-        int testEmployeeId = 1; // Test with employee ID 1
+        System.out.println("\nSCENARIO 2: Admin updates employee info");
+        int testEmployeeId = 1;
         
-        // 1. Get original data
+        // Get original data
         String originalTitle;
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
                  "SELECT job_title FROM employees WHERE employee_id=" + testEmployeeId)) {
             assertTrue(rs.next(), "Employee not found");
             originalTitle = rs.getString("job_title");
-            System.out.printf("Original Job Title: %s%n", originalTitle);
+            System.out.printf("Original: %s%n", originalTitle);
         }
 
-        // 2. Update employee
+        // Update employee
         String newTitle = "Updated " + originalTitle;
         try (PreparedStatement stmt = conn.prepareStatement(
             "UPDATE employees SET job_title=? WHERE employee_id=?")) {
@@ -68,22 +65,19 @@ public class AdminWorkflowTest {
             assertEquals(1, stmt.executeUpdate(), "Update failed");
         }
 
-        // 3. Verify changes
+        // Verify changes
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
                  "SELECT job_title FROM employees WHERE employee_id=" + testEmployeeId)) {
             assertTrue(rs.next(), "Employee missing after update");
             assertEquals(newTitle, rs.getString("job_title"), "Title not updated");
-            System.out.printf("Updated Job Title: %s%n", newTitle);
+            System.out.printf("Updated: %s%n", newTitle);
         }
-        System.out.println("✅ Scenario 2 Passed: Admin successfully updated employee\n");
+        System.out.println("✅ Scenario 2 Passed");
     }
 
     @AfterAll
     static void cleanup() throws SQLException {
-        if (conn != null) {
-            conn.close();
-            System.out.println("Database connection closed");
-        }
+        if (conn != null) conn.close();
     }
 }
