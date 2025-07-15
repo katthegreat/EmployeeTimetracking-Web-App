@@ -26,7 +26,7 @@ public class EmployeeMenu {
     }
 
     private static void punchIn(Connection conn, int empId) throws SQLException {
-        String check = "SELECT COUNT(*) FROM time_logs WHERE empid = ? AND punch_out IS NULL";
+        String check = "SELECT COUNT(*) FROM time_logs WHERE employee_id = ? AND punch_out IS NULL";
         try (PreparedStatement checkStmt = conn.prepareStatement(check)) {
             checkStmt.setInt(1, empId);
             try (ResultSet rs = checkStmt.executeQuery()) {
@@ -38,7 +38,7 @@ public class EmployeeMenu {
             }
         }
 
-        String insert = "INSERT INTO time_logs (empid, punch_in) VALUES (?, NOW())";
+        String insert = "INSERT INTO time_logs (employee_id, punch_in) VALUES (?, NOW())";
         try (PreparedStatement stmt = conn.prepareStatement(insert)) {
             stmt.setInt(1, empId);
             stmt.executeUpdate();
@@ -47,7 +47,7 @@ public class EmployeeMenu {
     }
 
     private static void punchOut(Connection conn, int empId) throws SQLException {
-        String update = "UPDATE time_logs SET punch_out = NOW() WHERE empid = ? AND punch_out IS NULL ORDER BY punch_in DESC LIMIT 1";
+        String update = "UPDATE time_logs SET punch_out = NOW() WHERE employee_id = ? AND punch_out IS NULL ORDER BY punch_in DESC LIMIT 1";
         try (PreparedStatement stmt = conn.prepareStatement(update)) {
             stmt.setInt(1, empId);
             int rows = stmt.executeUpdate();

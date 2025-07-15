@@ -1,4 +1,4 @@
-package TimeTrackingBackend;
+package EmployeeTimeTracking.TimeTrackingBackend;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Load .env from lib/
+        // Load .env
         Dotenv dotenv = Dotenv.configure()
                               .directory("lib")
                               .load();
@@ -18,9 +18,9 @@ public class Main {
         String dbPassword = dotenv.get("DB_PASSWORD");
 
         System.out.print("Enter Username: ");
-        String username = scanner.nextLine();
+        String username = scanner.nextLine().trim();
         System.out.print("Enter password: ");
-        String password = scanner.nextLine();
+        String password = scanner.nextLine().trim();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -28,52 +28,61 @@ public class Main {
 
             // Ensure default admin exists
             String checkAdmin = "SELECT COUNT(*) FROM users WHERE username = 'admin'";
-            Statement adminCheckStmt = conn.createStatement();
-            ResultSet adminRs = adminCheckStmt.executeQuery(checkAdmin);
-            adminRs.next();
-            if (adminRs.getInt(1) == 0) {
-                String insertAdmin = """
-                    INSERT INTO users (username, password, role, empid)
-                    VALUES ('admin', 'adminpass', 'admin', 1)
-                """;
-                try {
-                    int rows = adminCheckStmt.executeUpdate(insertAdmin);
-                    if (rows > 0) {
-                        System.out.println("✅ Default admin account created.");
-                    }
-                } catch (SQLException e) {
-                    System.out.println("⚠️ Could not create default admin. Make sure empid=1 exists in employees.");
+            try (Statement adminCheckStmt = conn.createStatement();
+                 ResultSet adminRs = adminCheckStmt.executeQuery(checkAdmin)) {
+                adminRs.next();
+                if (adminRs.getInt(1) == 0) {
+                    String insertAdmin = """
+                        INSERT INTO users (username, password, role, employee_id)
+                        VALUES ('admin', 'adminpass', 'admin', 1)
+                    """;
+                    adminCheckStmt.executeUpdate(insertAdmin);
+                    System.out.println("✅ Default admin account created.");
                 }
             }
-            adminRs.close();
-            adminCheckStmt.close();
 
-            // Attempt login
-            String loginQuery = "SELECT role, empid FROM users WHERE username = ? AND password = ?";
-            PreparedStatement loginStmt = conn.prepareStatement(loginQuery);
-            loginStmt.setString(1, username);
-            loginStmt.setString(2, password);
-            ResultSet rs = loginStmt.executeQuery();
+            boolean loggedIn = false;
 
-            if (rs.next()) {
-                String role = rs.getString("role");
-                Integer empId = rs.getInt("empid");
-                System.out.println("✅ Login successful as " + role);
-
-                if ("admin".equals(role)) {
-                    AdminMenu.run(conn, scanner);
-                } else {
-                    EmployeeMenu.run(conn, scanner, empId);
+            // If admin login
+            if (username.equals("admin")) {
+                String loginQuery = "SELECT role, employee_id FROM users WHERE username = ? AND password = ?";
+                try (PreparedStatement loginStmt = conn.prepareStatement(loginQuery)) {
+                    loginStmt.setString(1, username);
+                    loginStmt.setString(2, password);
+                    try (ResultSet rs = loginStmt.executeQuery()) {
+                        if (rs.next()) {
+                            System.out.println("✅ Login successful as admin.");
+                            AdminMenu.run(conn, scanner);
+                            loggedIn = true;
+                        }
+                    }
                 }
             } else {
+                // Otherwise, check employees with default 'emppass'
+                if (password.equals("emppass")) {
+                    String empQuery = "SELECT employee_id FROM employees WHERE first_name = ?";
+                    try (PreparedStatement empStmt = conn.prepareStatement(empQuery)) {
+                        empStmt.setString(1, username);
+                        try (ResultSet rs = empStmt.executeQuery()) {
+                            if (rs.next()) {
+                                int empId = rs.getInt("employee_id");
+                                System.out.println("✅ Login successful as employee.");
+                                EmployeeMenu.run(conn, scanner, empId);
+                                loggedIn = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!loggedIn) {
                 System.out.println("❌ Invalid credentials.");
             }
 
-            rs.close();
-            loginStmt.close();
             conn.close();
             scanner.close();
         } catch (Exception e) {
+            System.out.println("⚠️ An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
     }
