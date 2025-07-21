@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <h1>Welcome, <span id="admin-name"></span></h1>
+  <p>Admin Panel: View all employee records.</p>
+
+  <h3>Employee List:</h3>
+  <ul id="employee-list"></ul>
+
+  <br>
+  <button onclick="logout()">Logout</button>
+
+  <script>
+    // Set admin name from localStorage
+    const name = localStorage.getItem('employeeName');
+    document.getElementById('admin-name').textContent = name || 'Admin';
+
+    // Fetch and display all employees
+    fetch('http://localhost:4567/api/employees')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('employee-list');
+        list.innerHTML = ''; // Clear any previous content
+        data.forEach(emp => {
+          const li = document.createElement('li');
+          li.textContent = `${emp.name} - ${emp.position} - $${emp.salary}`;
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById('employee-list').textContent = 'Failed to load employee data.';
+      });
+
+    // Logout and clear session
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

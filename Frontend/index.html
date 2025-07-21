@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const employeeName = sessionStorage.getItem("employeeName");
+      const role = sessionStorage.getItem("role");
+
+      document.getElementById("welcome").textContent = `Welcome, ${employeeName}`;
+
+      if (role === "admin") {
+        document.getElementById("admin-panel").style.display = "block";
+        document.getElementById("employee-panel").style.display = "none";
+      } else {
+        document.getElementById("employee-panel").style.display = "block";
+        document.getElementById("admin-panel").style.display = "none";
+      }
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        sessionStorage.clear();
+        window.location.href = "login.html"; 
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1 id="welcome">Welcome</h1>
+
+  <!-- Admin Dashboard -->
+  <div id="admin-panel" style="display:none;">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="employee.html">View All Employees</a></li>
+      <li><a href="#">Generate Payroll Report</a></li> <!-- You can link this later -->
+    </ul>
+  </div>
+
+  <!-- Employee Dashboard -->
+  <div id="employee-panel" style="display:none;">
+    <h2>Employee Panel</h2>
+    <p>You can clock in/out or view your payroll summary here.</p>
+    <!-- Add links later -->
+  </div>
+
+  <button id="logoutBtn">Logout</button>
+</body>
+</html>

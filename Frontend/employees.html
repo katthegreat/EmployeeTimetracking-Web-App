@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Employees</title>
+</head>
+<body>
+  <h1>Employee List</h1>
+  <ul id="employee-list"></ul>
+
+  <script>
+    fetch('http://localhost:4567/api/employees')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('employee-list');
+        data.forEach(emp => {
+          const li = document.createElement('li');
+          li.textContent = `${emp.name} - ${emp.position} - $${emp.salary}`;
+          list.appendChild(li);
+        });
+      })
+      .catch(error => console.error('Error fetching employees:', error));
+  </script>
+</body>
+</html>

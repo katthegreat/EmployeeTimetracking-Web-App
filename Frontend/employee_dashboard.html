@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Dashboard</title>
+</head>
+<body>
+  <h1>Welcome, <span id="employee-name"></span></h1>
+  <p>Employee Panel: Clock in/out or view your payroll summary below.</p>
+
+  <button onclick="clockIn()">Clock In</button>
+  <button onclick="clockOut()">Clock Out</button>
+  <button onclick="viewPayroll()">View Payroll Summary</button>
+
+  <h3 id="payroll-summary"></h3>
+
+  <br>
+  <button onclick="logout()">Logout</button>
+
+  <script>
+  // Set employee name from localStorage
+  const name = localStorage.getItem('employeeName');
+  document.getElementById('employee-name').textContent = name || 'Employee';
+
+  function clockIn() {
+  fetch('http://localhost:4567/api/clockin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: name }) // ✅ changed 'name' to 'username'
+  })
+  .then(res => res.json())
+  .then(data => alert(data.message || 'Clocked in!'))
+  .catch(() => alert('Clock In failed.'));
+}
+
+  function clockOut() {
+  fetch('http://localhost:4567/api/clockout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: name }) // ✅ changed 'name' to 'username'
+  })
+  .then(res => res.json())
+  .then(data => alert(data.message || 'Clocked out!'))
+  .catch(() => alert('Clock Out failed.'));
+}
+
+
+  function viewPayroll() {
+    fetch(`http://localhost:4567/api/payroll?name=${encodeURIComponent(name)}`)
+      .then(res => res.json())
+      .then(data => {
+        const payroll = document.getElementById('payroll-summary');
+        if (data.hoursWorked !== undefined) {
+          payroll.innerHTML = `
+            <strong>Payroll Summary</strong><br>
+            Hours Worked: ${data.hoursWorked}<br>
+            Hourly Rate: $${data.hourlyRate}<br>
+            Total Pay: $${data.totalPay.toFixed(2)}
+          `;
+        } else {
+          payroll.textContent = 'Unable to fetch payroll summary.';
+        }
+      })
+      .catch(() => {
+        document.getElementById('payroll-summary').textContent = 'Error fetching payroll data.';
+      });
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html';
+  }
+</script>
+</body>
+</html>
