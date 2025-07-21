@@ -1,0 +1,127 @@
+import { useState, useEffect } from 'react';
+
+export default function TimeTracker({ empid }) {
+  const [clockedIn, setClockedIn] = useState(false);
+  const [startTime, setStartTime] = useState(null);
+  const [timeRecords, setTimeRecords] = useState([]);
+
+  // Load existing records from localStorage
+  useEffect(() => {
+    const records = JSON.parse(localStorage.getItem(`timeRecords_${empid}`)) || [];
+    setTimeRecords(records);
+  }, [empid]);
+
+  const handleClockInOut = () => {
+    const now = new Date();
+    
+    if (clockedIn) {
+      // Clock out
+      const newRecord = {
+        date: now.toISOString().split('T')[0],
+        start: startTime,
+        end: now.toISOString(),
+        duration: Math.round((now - new Date(startTime)) / (1000 * 60 * 60)) // in hours
+      };
+      
+      const updatedRecords = [...timeRecords, newRecord];
+      setTimeRecords(updatedRecords);
+      localStorage.setItem(`timeRecords_${empid}`, JSON.stringify(updatedRecords));
+    } else {
+      // Clock in
+      setStartTime(now.toISOString());
+    }
+    
+    setClockedIn(!clockedIn);
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2>Time Tracker</h2>
+      <div style={styles.clockCard}>
+        <h3>Current Status: {clockedIn ? 'Clocked In' : 'Clocked Out'}</h3>
+        {clockedIn && (
+          <p>Started at: {new Date(startTime).toLocaleTimeString()}</p>
+        )}
+        <button 
+          onClick={handleClockInOut} 
+          style={{
+            ...styles.clockButton,
+            backgroundColor: clockedIn ? '#ff4444' : '#4CAF50'
+          }}
+        >
+          {clockedIn ? 'Clock Out' : 'Clock In'}
+        </button>
+      </div>
+
+      <div style={styles.recordsSection}>
+        <h3>Your Time Records</h3>
+        {timeRecords.length > 0 ? (
+          <table style={styles.recordsTable}>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              {timeRecords.map((record, index) => (
+                <tr key={index}>
+                  <td>{record.date}</td>
+                  <td>{new Date(record.start).toLocaleTimeString()}</td>
+                  <td>{new Date(record.end).toLocaleTimeString()}</td>
+                  <td>{record.duration.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No time records yet</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem'
+  },
+  clockCard: {
+    backgroundColor: 'white',
+    padding: '1.5rem',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    textAlign: 'center'
+  },
+  clockButton: {
+    marginTop: '1rem',
+    padding: '0.75rem 1.5rem',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    transition: 'background-color 0.2s'
+  },
+  recordsSection: {
+    marginTop: '1rem'
+  },
+  recordsTable: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginTop: '1rem',
+    'th, td': {
+      padding: '0.75rem',
+      border: '1px solid #ddd',
+      textAlign: 'left'
+    },
+    th: {
+      backgroundColor: '#f2f2f2'
+    }
+  }
+};
