@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev & sleep 2 && open http://localhost:3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -11,7 +11,7 @@
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "type-check": "tsc",
-    "start:open": "npm run dev & sleep 2 && open http://localhost:3000"
+    "start:open": "npm run dev"
   },
   "dependencies": {
     "axios": "1.6.7",

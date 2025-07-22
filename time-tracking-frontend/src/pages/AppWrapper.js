@@ -1,18 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './App';
-import Dashboard from './pages/Dashboard';
+import LoginPage from '../pages/Login';
+import Dashboard from '../components/Dashboard';
 
-function AppWrapper() {
+export default function AppWrapper() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/admin-dashboard" element={<Dashboard role="admin" />} />
-        <Route path="/employee-dashboard" element={<Dashboard role="employee" />} />
+        <Route path="/admin-dashboard" element={<Dashboard />} />
+        <Route path="/employee-dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
 }
-
-export default AppWrapper;
