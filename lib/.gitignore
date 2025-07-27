@@ -1,30 +1,61 @@
-<<<<<<< HEAD
-# Ignore compiled class files
+# Compiled class files
 *.class
 
-# Ignore VS Code settings
-.vscode/
-
-# Ignore JARs and libraries
+# Java artifacts
 *.jar
+*.war
+*.ear
+hs_err_pid*
 
-# Ignore Mac system files
-.DS_Store
-
-# Ignore logs or environment files (if any in future)
-*.log
-.env
-
-
-
-=======
-.env
->>>>>>> 92359fe11e730d22c4b5a76a089994eff03447b2
-
-*.class
-
-
+# Gradle
 .gradle/
+build/
+out/
+target/
 
-
+# Node.js
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.iml
+*.ipr
+*.iws
+
+# Coverage/test reports
+coverage/
+.nyc_output/
+.jest/
+.vitest/
+
+# Merge conflict files
+*.orig
+
+# Docs
+docs/
+
+# Next.js
+.next/

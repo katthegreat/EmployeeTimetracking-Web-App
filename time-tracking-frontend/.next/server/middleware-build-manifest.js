@@ -1,1 +1,45 @@
-self.__BUILD_MANIFEST={polyfillFiles:["static/chunks/polyfills-42372ed130431b0a.js"],devFiles:[],ampDevFiles:[],lowPriorityFiles:[],rootMainFiles:[],pages:{"/":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/index-3a84776b0df1a55b.js"],"/AdminControls":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/AdminControls-41de7030fe3fdf68.js"],"/AdminDashboard":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/AdminDashboard-2f827f7d761bb450.js"],"/AppWrapper":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/250-dcf3501850dcbd0b.js","static/chunks/pages/AppWrapper-e1673320f684af6b.js"],"/Dashboard":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/250-dcf3501850dcbd0b.js","static/chunks/pages/Dashboard-e1121ddbb72b1b19.js"],"/EmployeeDashboard":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/EmployeeDashboard-4df55d9a394e494a.js"],"/TimeTracker":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/TimeTracker-8d38b24d01584d22.js"],"/_app":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/_app-5810f0a972a88d88.js"],"/_error":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/pages/_error-7a92967bea80186d.js"],"/login":["static/chunks/webpack-f9c579b376b186cc.js","static/chunks/framework-49c6cecf1f6d5795.js","static/chunks/main-b72093f7aa2e45f9.js","static/chunks/250-dcf3501850dcbd0b.js","static/chunks/pages/login-daade29028b4bd65.js"]},ampFirstPages:[]},self.__BUILD_MANIFEST.lowPriorityFiles=["/static/"+process.env.__NEXT_BUILD_ID+"/_buildManifest.js",,"/static/"+process.env.__NEXT_BUILD_ID+"/_ssgManifest.js"];
+globalThis.__BUILD_MANIFEST = {
+  "polyfillFiles": [
+    "static/chunks/polyfills.js"
+  ],
+  "devFiles": [
+    "static/chunks/react-refresh.js"
+  ],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "rootMainFilesTree": {},
+  "pages": {
+    "/AdminDashboard": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/AdminDashboard.js"
+    ],
+    "/EmployeeDashboard": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/EmployeeDashboard.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_app.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
+    ],
+    "/login": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/login.js"
+    ]
+  },
+  "ampFirstPages": []
+};
+globalThis.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+,"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js",
+
+];

@@ -42,5 +42,21 @@
         "/Users/gaurisaraf/EmployeeTimeTracking/lib/jetty-util-9.4.43.v20210629.jar",
         "/Users/gaurisaraf/EmployeeTimeTracking/lib/junit-jupiter-api-5.10.0.jar"
     ],
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "timetracking",
+            "username": "root",
+            "database": "timetracking",
+            "password": "YourNewPassword123!"
+        }
+    ]
 }
